@@ -1055,7 +1055,7 @@ static inline int rwnx_rx_sm_disconnect_ind(struct rwnx_hw *rwnx_hw,
     struct net_device *dev;
 #ifdef AICWF_RX_REORDER
     struct reord_ctrl_info *reord_info, *tmp;
-    u8 *macaddr;
+    const u8 *macaddr;
     struct aicwf_rx_priv *rx_priv;
 #endif
 
@@ -1552,4 +1552,3 @@ void rwnx_rx_handle_print(struct rwnx_hw *rwnx_hw, u8 *msg, u32 len)
     spin_unlock_bh(&rwnx_hw->debugfs.fw_log.lock);
 #endif
 }
-
