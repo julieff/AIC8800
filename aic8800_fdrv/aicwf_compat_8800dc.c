@@ -1995,7 +1995,9 @@ int	rwnx_plat_userconfig_load_8800dc(struct rwnx_hw *rwnx_hw){
     char *filename = FW_USERCONFIG_NAME_8800DC;
     if (rwnx_hw->usbdev->udev->descriptor.idProduct == 0x0147 && rwnx_hw->usbdev->udev->descriptor.idVendor==0x2357) {
         filename = FW_USERCONFIG_NAME_8800DC_2357;
-    } else if (rwnx_hw->usbdev->udev->descriptor.idProduct == 0x0114 && rwnx_hw->usbdev->udev->descriptor.idVendor==0x2c4e) {
+    } else if ((rwnx_hw->usbdev->udev->descriptor.idProduct == 0x0114 ||
+                rwnx_hw->usbdev->udev->descriptor.idProduct == 0x0126) &&
+               rwnx_hw->usbdev->udev->descriptor.idVendor == 0x2c4e) {
         filename = FW_USERCONFIG_NAME_8800DC_2C4E;
     } else if (rwnx_hw->usbdev->udev->descriptor.idProduct == 0x0110 && rwnx_hw->usbdev->udev->descriptor.idVendor==0x3625) {
         filename = FW_USERCONFIG_NAME_8800DC_3625;
@@ -2119,4 +2121,3 @@ void system_config_8800dc(struct rwnx_hw *rwnx_hw){
     }
 
 }
-

@@ -34,6 +34,7 @@
 #define USB_PRODUCT_ID_TP                   0x0147
 #define USB_PRODUCT_ID_TP2                  0x0110
 #define USB_PRODUCT_ID_MERCUSYS             0x0114
+#define USB_PRODUCT_ID_MERCUSYS_AIC8800DC   0x0126
 #endif
 
 enum AICWF_IC{
