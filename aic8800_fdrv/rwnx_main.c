@@ -4670,6 +4670,9 @@ cfg80211_chandef_identical(const struct cfg80211_chan_def *chandef1,
 #endif
 
 static int rwnx_cfg80211_set_monitor_channel(struct wiphy *wiphy,
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0)
+                                             struct net_device *dev,
+#endif
                                              struct cfg80211_chan_def *chandef)
 {
     struct rwnx_hw *rwnx_hw = wiphy_priv(wiphy);
@@ -4780,7 +4783,11 @@ void rwnx_cfg80211_mgmt_frame_register(struct wiphy *wiphy,
  *	have changed. The actual parameter values are available in
  *	struct wiphy. If returning an error, no value should be changed.
  */
-static int rwnx_cfg80211_set_wiphy_params(struct wiphy *wiphy, u32 changed)
+static int rwnx_cfg80211_set_wiphy_params(struct wiphy *wiphy,
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0)
+                                           int link_id,
+#endif
+                                           u32 changed)
 {
     return 0;
 }
@@ -4796,6 +4803,9 @@ static int rwnx_cfg80211_set_wiphy_params(struct wiphy *wiphy, u32 changed)
 static int rwnx_cfg80211_set_tx_power(struct wiphy *wiphy,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0)
  struct wireless_dev *wdev,
+#endif
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0)
+                                      int link_id,
 #endif
                                       enum nl80211_tx_power_setting type, int mbm)
 {
@@ -5147,7 +5157,11 @@ static int rwnx_cfg80211_get_channel(struct wiphy *wiphy,
     if (rwnx_vif->vif_index == rwnx_hw->monitor_vif)
     {
         //retrieve channel from firmware
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0)
+        rwnx_cfg80211_set_monitor_channel(wiphy, NULL, NULL);
+#else
         rwnx_cfg80211_set_monitor_channel(wiphy, NULL);
+#endif
     }
 
     //Check if channel context is valid
@@ -9225,4 +9239,3 @@ MODULE_DESCRIPTION(RW_DRV_DESCRIPTION);
 MODULE_VERSION(RWNX_VERS_MOD);
 MODULE_AUTHOR(RW_DRV_COPYRIGHT " " RW_DRV_AUTHOR);
 MODULE_LICENSE("GPL");
-

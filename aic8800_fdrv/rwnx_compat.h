@@ -21,10 +21,19 @@
  */
 #ifndef _RWNX_COMPAT_H_
 #define _RWNX_COMPAT_H_
+#include <linux/timer.h>
 #include <linux/version.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(3, 10, 0)
 #error "Minimum kernel version supported is 3.10"
+#endif
+
+/* Timers */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 18, 0)
+#define del_timer(timer) timer_delete(timer)
+#define del_timer_sync(timer) timer_delete_sync(timer)
+#define from_timer(var, callback_timer, timer_fieldname) \
+    container_of(callback_timer, typeof(*var), timer_fieldname)
 #endif
 
 /* Generic */
@@ -37,6 +46,18 @@
 #endif
 
 /* CFG80211 */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
+#define cfg80211_rx_spurious_frame_compat(dev, addr, gfp) \
+    cfg80211_rx_spurious_frame(dev, addr, -1, gfp)
+#define cfg80211_rx_unexpected_4addr_frame_compat(dev, addr, gfp) \
+    cfg80211_rx_unexpected_4addr_frame(dev, addr, -1, gfp)
+#else
+#define cfg80211_rx_spurious_frame_compat(dev, addr, gfp) \
+    cfg80211_rx_spurious_frame(dev, addr, gfp)
+#define cfg80211_rx_unexpected_4addr_frame_compat(dev, addr, gfp) \
+    cfg80211_rx_unexpected_4addr_frame(dev, addr, gfp)
+#endif
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 20, 0)
 #define IEEE80211_HE_MAC_CAP3_MAX_AMPDU_LEN_EXP_MASK IEEE80211_HE_MAC_CAP3_MAX_A_AMPDU_LEN_EXP_MASK
 #endif
