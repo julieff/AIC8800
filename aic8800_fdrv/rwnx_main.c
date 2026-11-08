@@ -4670,7 +4670,7 @@ cfg80211_chandef_identical(const struct cfg80211_chan_def *chandef1,
 #endif
 
 static int rwnx_cfg80211_set_monitor_channel(struct wiphy *wiphy,
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
                                              struct net_device *dev,
 #endif
                                              struct cfg80211_chan_def *chandef)
@@ -4784,7 +4784,7 @@ void rwnx_cfg80211_mgmt_frame_register(struct wiphy *wiphy,
  *	struct wiphy. If returning an error, no value should be changed.
  */
 static int rwnx_cfg80211_set_wiphy_params(struct wiphy *wiphy,
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
                                            int radio_idx,
 #endif
                                            u32 changed)
@@ -4804,7 +4804,7 @@ static int rwnx_cfg80211_set_tx_power(struct wiphy *wiphy,
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 8, 0)
  struct wireless_dev *wdev,
 #endif
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
                                       int radio_idx,
 #endif
                                       enum nl80211_tx_power_setting type, int mbm)
@@ -5157,7 +5157,7 @@ static int rwnx_cfg80211_get_channel(struct wiphy *wiphy,
     if (rwnx_vif->vif_index == rwnx_hw->monitor_vif)
     {
         //retrieve channel from firmware
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 17, 0)
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 12, 0)
         rwnx_cfg80211_set_monitor_channel(wiphy, NULL, NULL);
 #else
         rwnx_cfg80211_set_monitor_channel(wiphy, NULL);
